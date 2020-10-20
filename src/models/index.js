@@ -17,9 +17,6 @@ const Auth = {
         });
     },
     login(username, password) {
-        console.log("---------");
-        console.log(username);
-        console.log(password);
         return new Promise((resolve, reject) => {
             User.logIn(username, password).then(loginedUser => resolve(loginedUser), error => reject(error));
         });
