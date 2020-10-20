@@ -1,16 +1,29 @@
-import React from "react";
+import React,{useEffect} from "react";
 import {observer} from "mobx-react";
 import {useStores} from "../stores";
 import InfiniteScroll from 'react-infinite-scroller';
 import  {List,Spin} from "antd";
+import styled from 'styled-components'
+
+const Img = styled.img`
+  width: 100px;
+  height: 120px;
+  object-fit: contain;
+  border: 1px solid #eee;
+`
 
 const Component = observer(() => {
     const {HistoryStore} = useStores()
 
     const loadMore = () => {
         HistoryStore.find()
-        console.log(HistoryStore.list)
     }
+
+    useEffect(()=>{
+        return () => {
+            HistoryStore.reset()
+        }
+    },[])
 
     return (
         <div>
@@ -21,11 +34,12 @@ const Component = observer(() => {
                 hasMore={!HistoryStore.isLoading&&HistoryStore.hasMore}
                 useWindow={true}
             >
-                <List dataSource={HistoryStore.list}
+                <List
+                    dataSource={HistoryStore.list}
                     renderItem={
                         item => <List.Item key={item.id}>
                             <div>
-                                <img src={item.attributes.url.attributes.url} style={{height:'100px'}}/>
+                                <Img src={item.attributes.url.attributes.url}/>
                             </div>
                             <div>
                                 <h5>{item.attributes.filename}</h5>
@@ -33,7 +47,9 @@ const Component = observer(() => {
                             <div>
                                 <a target="_blank" rel="noopener noreferrer"  href={item.attributes.url.attributes.url}>{item.attributes.url.attributes.url} </a>
                             </div>
-                        </List.Item>}>
+                        </List.Item>
+                        }
+                >
                     {HistoryStore.isLoading&&HistoryStore.hasMore && (
 
                         <div>

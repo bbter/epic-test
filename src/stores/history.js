@@ -19,21 +19,26 @@ class HistoryStore {
 
     @action find() {
         this.isLoading = true;
-        console.log(this.page,this.limit)
-        Uploader.find({page:0,limit:10}).then(data=>console.log(data))
-        Uploader.find({page:this.page,limit:this.limit})
-            .then(newList => {
-                this.append(newList);
-                this.page++;
-                if (newList.length < this.limit) {
-                    this.hasMore = false;
-                }
-            })
-            .catch(error => {
+        Uploader.find({page: this.page, limit: this.limit}).then(newList => {
+            this.append(newList);
+            this.page++;
+            if (newList.length < this.limit) {
+                this.hasMore = false;
+            }
+        }).catch(error => {
             message.error("加载数据失败");
         }).finally(() => {
             this.isLoading = false;
         });
+    }
+
+    @action reset() {
+        this.list = [];
+        this.isLoading = false;
+        this.hasMore = true;
+        this.page = 0;
+        this.limit = 10;
+
     }
 
 }

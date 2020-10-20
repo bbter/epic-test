@@ -41,6 +41,7 @@ const Uploader = {
             item.save().then(serveFile => resolve(serveFile), error => reject(error));
         });
     },
+
     find({page = 0, limit = 10}) {
         const query = new AV.Query("Images");
         query.include("owner");
@@ -55,6 +56,8 @@ const Uploader = {
         });
     }
 };
+
+window.Uploader = Uploader
 
 
 export {Auth, Uploader};
