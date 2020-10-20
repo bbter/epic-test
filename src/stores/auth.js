@@ -1,6 +1,7 @@
 import {observable, action, makeObservable} from "mobx";
 import {Auth} from "../models";
-import UserStore from './user'
+import UserStore from "./user";
+import {message} from "antd";
 
 class AuthStore {
     constructor() {
@@ -24,10 +25,11 @@ class AuthStore {
         return new Promise((resolve, reject) => {
             Auth.login(this.values.username, this.values.password)
                 .then(user => {
-                    UserStore.pullUser()
+                    UserStore.pullUser();
                     resolve(user);
                 }).catch(err => {
-                UserStore.resetUser()
+                UserStore.resetUser();
+                message.error("登录失败");
                 reject(err);
             });
         });
@@ -37,10 +39,11 @@ class AuthStore {
         return new Promise((resolve, reject) => {
             Auth.register(this.values.username, this.values.password)
                 .then(user => {
-                    UserStore.pullUser()
+                    UserStore.pullUser();
                     resolve(user);
                 }).catch(err => {
-                    UserStore.resetUser()
+                UserStore.resetUser();
+                message.error("注册失败");
                 reject(err);
             });
         });
@@ -48,7 +51,7 @@ class AuthStore {
 
     @action logout() {
         Auth.logout();
-        UserStore.resetUser()
+        UserStore.resetUser();
     }
 }
 
