@@ -6,10 +6,11 @@ class UserStore {
         makeObservable(this);
     }
 
-    @observable currentUser = null;
+    @observable currentUser = JSON.parse(localStorage.getItem('currentUser')) || ''
 
     @action pullUser(){
-        this.currentUser =Auth.getCurrentUser()
+        this.currentUser =Auth.getCurrentUser().attributes.username
+        localStorage.setItem('currentUser',JSON.stringify(this.currentUser))
     }
 
     @action resetUser(){

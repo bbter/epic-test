@@ -64,7 +64,7 @@ const Component = observer(() => {
             <Login>
                 {
                     UserStore.currentUser ? <>
-                        {UserStore.currentUser.attributes.username} <StyledButton type="primary" onClick={handleLogout}>注销</StyledButton>
+                        {UserStore.currentUser} <StyledButton type="primary" onClick={handleLogout}>注销</StyledButton>
                     </> : <>
                         <StyledButton type="primary" onClick={handleLogin}>登录</StyledButton>
                         <StyledButton type="primary" onClick={handleRegister}>注册</StyledButton>
